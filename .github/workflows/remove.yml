@@ -1,0 +1,23 @@
+name: Remove
+run-name: ${{ github.actor }} remove lambdas
+on: workflow_dispatch
+jobs:
+  serverless-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.19.0
+      - run: npm ci
+      - run: npm i -g serverless@3.36.0
+      - name: aws login
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.DEPLOY_ROLE }}
+          aws-region: ap-southeast-1
+      - run: serverless remove --stage dev

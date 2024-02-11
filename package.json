@@ -1,0 +1,20 @@
+{
+  "name": "serverless-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild-plugin-tsc": "^0.4.0",
+    "serverless-esbuild": "^1.51.0",
+    "serverless-plugin-aws-alerts": "^1.7.5",
+    "serverless-plugin-warmup": "^8.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,42 @@
+service: aws-node-project
+frameworkVersion: "3"
+
+plugins:
+  - serverless-plugin-warmup
+  - serverless-esbuild
+  - serverless-plugin-aws-alerts
+
+custom:
+  esbuild:
+    # bundle: true
+    # minify: true
+    concurrency: 1
+    zipConcurrency: 1
+    config: "./esbuild.config.js"
+    exclude:
+      - "@aws-sdk*"
+  warmup:
+    default:
+      enabled: false
+      name: s-warmer
+      events:
+        - schedule: cron(0/5 8-17 ? * MON-FRI *)
+      concurrency: 1
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-southeast-1
+  deploymentMethod: direct
+  versionFunctions: false
+  stage: ${opt:stage, 'dev'}
+
+functions:
+  main:
+    handler: index.handler
+    warmup:
+      default:
+        enabled: true
